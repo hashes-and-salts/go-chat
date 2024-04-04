@@ -1,0 +1,19 @@
+#messages-area {
+    width: 500px;
+    height: 500px;
+    border: 2px solid gray;
+    margin: 20px;
+    display: flex;
+    padding: 20px;
+    overflow: scroll;
+}
+
+#message-input-box {
+    width: 500px;
+    height: 25px;
+}
+
+#message-btn {
+    width: 100px;
+    height: 30px;
+}
