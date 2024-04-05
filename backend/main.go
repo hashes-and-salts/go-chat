@@ -33,14 +33,6 @@ func chatHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		log.Println(string(message))
-
-		// err = conn.WriteMessage(msgType, message)
-
-		// if err != nil {
-		// 	log.Println("Error while writing message: ", err)
-		// }
-
 		for _, client := range clients {
 			// client.wr
 			err := client.WriteMessage(msgType, message)

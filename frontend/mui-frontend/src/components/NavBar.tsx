@@ -43,8 +43,8 @@ const NavBar = (
 
                 <Box sx={{cursor: 'pointer'}}>
                     <Tooltip title="Menu">
-                        <IconButton>
-                            <Avatar onClick={() => setMenuOpen(!menuOpen)}/>
+                        <IconButton onClick={() => setMenuOpen(!menuOpen)}>
+                            <Avatar/>
                         </IconButton>
                     </Tooltip>
                 </Box>
