@@ -1,10 +1,10 @@
 # go-chat
-Chat. Maybe.
+RealTime chat application
 
 ### Backend
-Built with [Go](https://go.dev) for speed using:
+- [Go](https://go.dev)
 - [Gorilla WebSocket](https://github.com/gorilla/websocket)
 
 ### Frontend:
-Built with pute HTML/CSS/JS for existing.
-Who needs a fancy interface anyway?
+- [React](https://react.dev/)
+- [MUI](https://mui.com)
