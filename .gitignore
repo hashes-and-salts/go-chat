@@ -1,6 +1,7 @@
 TODO.md
 
+.env
+
 # temporary
 docker-compose.yml
-backend/Dockerfile
-frontend/Dockerfile
+Dockerfile

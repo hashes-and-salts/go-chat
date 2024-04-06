@@ -1,6 +1,7 @@
 import { DarkMode, LightMode } from "@mui/icons-material";
-import { AppBar, Avatar, Box, Icon, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography, styled } from "@mui/material"
-import { useState } from "react";
+import { AppBar, Avatar, Box, Button, Icon, IconButton, InputBase, Menu, MenuItem, Toolbar, Tooltip, Typography, styled } from "@mui/material"
+import React, { useState } from "react";
+import { ChatContext } from "../App";
 
 const StyledToolbar = styled(Toolbar)({
     display: "flex",
@@ -13,18 +14,20 @@ const NavBarOptions = styled(Box)(() => ({
     alignItems: 'center',
 }))
 
-const NavBar = (
-    {
-        toggleDarkMode
-    } : {
-        toggleDarkMode: () => void
-    }
-) => {
+const NavBar = ( { toggleDarkMode } : { toggleDarkMode: () => void } ) => {
 
     const [menuOpen, setMenuOpen] = useState(false)
 
     const [lightMode, setLightMode] = useState(false)
 
+    const chatContext = React.useContext(ChatContext)
+
+    const [changedName, setChangedName] = useState("")
+
+    const handleRenameButtonClick = () => {
+        chatContext.setUsername(changedName)
+        setChangedName('')
+    }
 
   return (
     <AppBar sx={{position: 'sticky'}}>
@@ -32,6 +35,15 @@ const NavBar = (
             <Typography variant="h5" sx={{fontWeight: 'bold'}}>
                 Go-Chat
             </Typography>
+
+            <Box display={"flex"} gap={2} alignItems={'center'}>
+                <Typography sx={{fontWeight: 'bold'}}>
+                    Chatting as:
+                </Typography>
+                <InputBase placeholder={chatContext.username === '' ? "Set Username..." : chatContext.username} value={changedName} onChange={(e) => setChangedName(e.target.value)}>
+                </InputBase>
+                <Button variant="contained" onClick={ handleRenameButtonClick } >Rename</Button>
+            </Box>
 
             <NavBarOptions>
 

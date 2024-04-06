@@ -1,5 +1,4 @@
 import { createTheme } from "@mui/material";
-import { blue, blueGrey, purple } from "@mui/material/colors";
 
 // TODO create a palette
 export const theme = createTheme({
