@@ -1,12 +1,49 @@
 import { Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material'
-import React from 'react'
+import axios from 'axios'
+import React, { ChangeEvent, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 
+interface FormData {
+    firstname: string
+    lastname: string
+    username: string
+    email: string
+    password: string
+    confirmPassword: string
+}
 
 const Register = () => {
 
+    const [formData, setFormData] = useState<FormData>({
+        firstname: "",
+        lastname: "",
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: ""
+    })
+
+    const handleFormDataChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = e.target
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }))
+    }
+
     const handleSubmission = async (e: React.SyntheticEvent) => {
         e.preventDefault()
+
+        try {
+            await axios.post(
+                "http://localhost:8000/register",
+                formData
+            )
+
+        } catch (e) {
+            console.error(e)
+        }
+
     }
 
   return (
@@ -35,6 +72,9 @@ const Register = () => {
                                 id="firstname"
                                 label="First Name"
                                 name="firstname"
+                                type="text"
+                                value={formData.firstname}
+                                onChange={handleFormDataChange}                                
                             />
                         </Grid>
 
@@ -45,6 +85,9 @@ const Register = () => {
                                 id="lastname"
                                 label="Last Name"
                                 name="lastname"
+                                type="text"
+                                value={formData.lastname}
+                                onChange={handleFormDataChange}
                             />
                         </Grid>
 
@@ -56,6 +99,8 @@ const Register = () => {
                                 label="Username"
                                 name="username"
                                 type="text"
+                                value={formData.username}
+                                onChange={handleFormDataChange}
                             />
                         </Grid>
 
@@ -67,6 +112,8 @@ const Register = () => {
                                 label="Email"
                                 name="email"
                                 type="email"
+                                value={formData.email}
+                                onChange={handleFormDataChange}
                             />
                         </Grid>
 
@@ -79,6 +126,8 @@ const Register = () => {
                                 label="Password"
                                 name="password"
                                 type="password"
+                                value={formData.password}
+                                onChange={handleFormDataChange}
                             />
                         </Grid>
 
@@ -91,6 +140,8 @@ const Register = () => {
                                 label="Re-type Password"
                                 name="confirmPassword"
                                 type="password"
+                                value={formData.confirmPassword}
+                                onChange={handleFormDataChange}
                             />
                         </Grid>
 
@@ -109,7 +160,7 @@ const Register = () => {
 
                     </Grid>
 
-                    <Grid container xs={12} justifyContent={"flex-end"}>
+                    <Grid container justifyContent={"flex-end"}>
                         <Link component={RouterLink} to={"/login"}>
                             <Typography>
                                 Have an account already? Login
