@@ -1,0 +1,26 @@
+services:
+  backend:
+    container_name: gochat_backend
+    build: ./backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+  
+
+  postgres:
+    container_name: gochat_postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "9000:5432"
+
+
+  frontend:
+    container_name: gochat_frontend
+    build: ./frontend
+    ports:
+      - "7000:7000"
