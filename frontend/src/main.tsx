@@ -5,12 +5,23 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import PageNotFound from './components/PageNotFound.tsx'
 import Register from './pages/Register.tsx'
 import Login from './pages/Login.tsx'
+import axios from 'axios'
+import HomePage from './pages/HomePage.tsx'
+
+axios.defaults.withCredentials = true
+
 
 const router = createBrowserRouter([
   {
     path:"/",
     element: <App/>,
     errorElement: <PageNotFound/>,
+    children: [
+      {
+        path: "/home",
+        element: <HomePage/>
+      }
+    ]
   },
   {
     path: "/login",

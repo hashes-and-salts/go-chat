@@ -1,7 +1,7 @@
 import { Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material'
 import axios from 'axios'
-import React, { ChangeEvent, useState } from 'react'
-import { Link as RouterLink } from 'react-router-dom'
+import React, { ChangeEvent, useEffect, useState } from 'react'
+import { Navigate, Link as RouterLink, redirect, useNavigate } from 'react-router-dom'
 
 interface FormData {
     firstname: string
@@ -14,6 +14,8 @@ interface FormData {
 
 const Register = () => {
 
+    const navigateTo = useNavigate()
+
     const [formData, setFormData] = useState<FormData>({
         firstname: "",
         lastname: "",
@@ -22,6 +24,8 @@ const Register = () => {
         password: "",
         confirmPassword: ""
     })
+
+    const [redirectToLogin, setRedirectToLogin] = useState(false)
 
     const handleFormDataChange = (e: ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target
@@ -36,15 +40,25 @@ const Register = () => {
 
         try {
             await axios.post(
-                "http://localhost:8000/register",
+                "http://0.0.0.0:8080/api/register",
                 formData
             )
 
+            setRedirectToLogin(true)
+
         } catch (e) {
             console.error(e)
+            setRedirectToLogin(false)
         }
 
     }
+
+    useEffect(() => {
+        if(redirectToLogin) {
+            console.log("redirecting to login page")
+            navigateTo("/login")
+        }
+    }, [redirectToLogin])
 
   return (
     <Container maxWidth="sm">
