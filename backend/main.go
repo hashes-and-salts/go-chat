@@ -1,6 +1,7 @@
 package main
 
 import (
+	"go-chat/database"
 	"log"
 	"net/http"
 	"time"
@@ -10,14 +11,27 @@ import (
 
 func main() {
 
+	err := database.Init()
+	if err != nil {
+		log.Fatal("Error connecting to database", err)
+		return
+	}
+	log.Println("Database connection successful")
+
+	err = database.AutoMigrate()
+	if err != nil {
+		log.Fatal("Error migrating database", err)
+		return
+	}
+	log.Println("database migration successful")
+
 	mux := http.NewServeMux()
 
 	setupRoutes(mux)
 
 	cors := cors.New(cors.Options{
-		AllowedOrigins: []string{"*"},
-		AllowedMethods: []string{http.MethodGet, http.MethodPost, http.MethodDelete},
-		// AllowedMethods: []string{http.MethodGet, http.MethodPost, http.MethodDelete},
+		AllowedOrigins:   []string{"http://0.0.0.0:7000"},
+		AllowedMethods:   []string{http.MethodGet, http.MethodPost, http.MethodDelete},
 		AllowCredentials: true,
 	})
 
