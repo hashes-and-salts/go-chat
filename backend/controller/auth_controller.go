@@ -5,7 +5,6 @@ import (
 	"go-chat/database"
 	"go-chat/model"
 	"go-chat/utils"
-	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -33,13 +32,15 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check if user is in database
-	if ok, err := database.CheckIfUserExists(user.UserName, user.Email, user.Password); !ok || err != nil {
-		http.Error(w, "could not find user", http.StatusUnauthorized)
+	// check if user is in database, if present, send cookie to login, else dont
+
+	userDBRecord, err := database.FindUserByUsername(user.UserName)
+	if err != nil {
+		http.Error(w, "could not find user in database, register first", http.StatusUnauthorized)
 		return
 	}
 
-	tokenString, err := generateJWT(user)
+	tokenString, err := generateJWT(userDBRecord)
 	if err != nil {
 		http.Error(w, "Failed to generate JWT:"+err.Error(), http.StatusInternalServerError)
 		return
@@ -94,8 +95,6 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func User(w http.ResponseWriter, r *http.Request) {
-
-	log.Println("/api/user called")
 
 	jwtCookie, err := r.Cookie("jwt")
 	if err != nil {

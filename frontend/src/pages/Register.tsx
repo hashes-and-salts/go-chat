@@ -40,7 +40,7 @@ const Register = () => {
 
         try {
             await axios.post(
-                "http://0.0.0.0:8080/api/register",
+                "/register",
                 formData
             )
 

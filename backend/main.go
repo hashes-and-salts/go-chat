@@ -4,6 +4,7 @@ import (
 	"go-chat/database"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/rs/cors"
@@ -29,20 +30,24 @@ func main() {
 
 	setupRoutes(mux)
 
+	frontend := os.Getenv("FRONTEND_ADDRESS")
+	backend := os.Getenv("BACKEND_ADDRESS")
+	port := os.Getenv("BACKEND_PORT")
+
 	cors := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://0.0.0.0:7000"},
+		AllowedOrigins:   []string{frontend},
 		AllowedMethods:   []string{http.MethodGet, http.MethodPost, http.MethodDelete},
 		AllowCredentials: true,
 	})
 
 	server := http.Server{
-		Addr:    "0.0.0.0:8080",
+		Addr:    backend + port,
 		Handler: cors.Handler(mux),
 	}
 
 	go func() {
 		for {
-			log.Println("Server Listening at port :8080")
+			log.Println("Server Listening at port", port)
 			time.Sleep(time.Minute * 1)
 		}
 	}()

@@ -3,11 +3,9 @@ package database
 import (
 	"fmt"
 	"go-chat/model"
-	"log"
 	"os"
 
 	"github.com/joho/godotenv"
-	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -38,26 +36,6 @@ func Init() error {
 }
 
 func AutoMigrate() error {
-	return DB.AutoMigrate(&model.User{})
-}
-
-func CreateUser(user model.User) {
-	DB.Create(&user)
-}
-
-// TODO change function name
-func CheckIfUserExists(username, email, password string) (bool, error) {
-	// DB.First(&user)
-	var user model.User
-
-	if err := DB.Where("username = ? OR email = ?", username, email).First(&user).Error; err != nil {
-    log.Println("user's record not found in database")
-		return false, err
-	}
-
-  if err := bcrypt.CompareHashAndPassword(user.Password, []byte(password)); err != nil {
-    return false, err
-  }
-
-	return true, nil
+	err := DB.AutoMigrate(&model.User{}, &model.Post{})
+	return err
 }

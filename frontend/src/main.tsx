@@ -7,8 +7,10 @@ import Register from './pages/Register.tsx'
 import Login from './pages/Login.tsx'
 import axios from 'axios'
 import HomePage from './pages/HomePage.tsx'
+import Chats from './pages/Chats.tsx'
 
 axios.defaults.withCredentials = true
+axios.defaults.baseURL = import.meta.env.VITE_SERVER_ADDRESS
 
 
 const router = createBrowserRouter([
@@ -20,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "/home",
         element: <HomePage/>
+      },
+      {
+        path: "/chats",
+        element: <Chats/>
       }
     ]
   },

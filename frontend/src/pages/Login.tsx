@@ -31,7 +31,7 @@ const Login = () => {
         try {
             // const address = import.meta.env.VITE_SECRET
             await axios.post(
-                "http://0.0.0.0:8080/api/login",
+                "/login",
                 formData,
             )
 

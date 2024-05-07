@@ -1,7 +1,10 @@
-import { Container, Typography } from "@mui/material"
+import { AppBar, Box, Container, Stack, Toolbar, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { useNavigate } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
+import LeftSidebar from "./layout/LeftSidebar"
+import MainArea from "./layout/MainArea"
+import RightSidebar from "./layout/RightSidebar"
 
 
 function App() {
@@ -13,7 +16,7 @@ function App() {
 
   const getUserInfo = async () => {
     try {
-      const response = await axios.get("http://0.0.0.0:8080/api/user")
+      const response = await axios.get("/user")
 
       console.log('response.data', response.data)
       setUsername(response.data.username)
@@ -38,13 +41,31 @@ function App() {
   }
 
   return (
-    <>
+    <Box>
+    <nav>
+      <Toolbar>
+        This is the app bar
+      </Toolbar>
+    </nav>
+
     <Container>
-      <Typography variant="h2">
-        Hello, {username}
-      </Typography>
+
+      <Stack direction={'row'} gap={2}>
+
+        {/* <LeftSidebar/> */}
+
+        <Outlet/>
+
+        {/* <MainArea/> */}
+
+        <RightSidebar/>
+
+      </Stack>
+
     </Container>
-    </>
+
+
+    </Box>
   )
 }
 
